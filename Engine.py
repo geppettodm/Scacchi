@@ -2,8 +2,7 @@ import chess
 import random
 
 class Engine:
-    depth:int
-    
+    depth:int   
 
     def __init__(self, depth:int):
         self.depth=depth;
@@ -27,24 +26,28 @@ class Engine:
         mat = (P-p)*10 + (N-n)*30 + (B-b)*35 + (R-r)*50 + (Q-q)*90
 
         if(board.turn):
-            return mat + random.randrange(-5,5,1)
+            return mat + random.randrange(0,5,1)
         else:
-            return -mat + random.randrange(-5,5,1)
+            return -mat + random.randrange(0,5,1)
 
 
 
-    def negamax(self, board:chess.Board, depth:int):
+    def negamax(self, board:chess.Board, depth:int, a:int, b: int):
         bestMove:chess.Move
-        if (depth==0 or board.is_checkmate):
+        if (depth==0 or board.is_checkmate()):
             return self.evaluate(board)
         maxScore = -999
         for move in board.legal_moves:
             board.push(move)
-            score = -self.negamax(board, depth-1)
-            if(score>maxScore):
-                maxScore=score
-                bestMove=move;
-            board.pop()            
+            score = -self.negamax(board, depth-1, -b, -a)
+            maxScore = max(score, maxScore)
+            if(score>a):
+                a=score
+                bestMove=move
+                if(a>b):
+                    board.pop()
+                    break
+            board.pop()          
         if(depth==self.depth):
             print(bestMove)
             return bestMove

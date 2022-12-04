@@ -15,7 +15,7 @@ class Chess:
 
         while(color!="b" and color!="w"):
             color = input("""Play as (type "b" or "w"): """)
-        while(depth < 2 or depth > 7):
+        while(depth < 1 or depth > 7):
             depth = int(input("""Depth: """)) 
         self.engine=Engine(depth);
 
@@ -51,4 +51,4 @@ class Chess:
         try:
             self.board.push(chess.polyglot.MemoryMappedReader("lib/computer.bin").weighted_choice(self.board).move)
         except:
-            self.board.push(self.engine.negamax(self.board, depth))
+            self.board.push(self.engine.negamax(self.board, depth,-1000, 1000))
