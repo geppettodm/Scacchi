@@ -49,6 +49,10 @@ class Chess:
     #play engine move
     def playEngineMove(self, depth):
         try:
-            self.board.push(chess.polyglot.MemoryMappedReader("lib/computer.bin").weighted_choice(self.board).move)
+            move = chess.polyglot.MemoryMappedReader("lib/computer.bin").weighted_choice(self.board).move
+            print(self.board.san(move))
+            self.board.push(move)
         except:
-            self.board.push(self.engine.negamax(self.board, depth,-1000, 1000))
+            move = self.engine.negamax(self.board, depth,-10000, 10000)
+            print(self.board.san(move))
+            self.board.push(move)
