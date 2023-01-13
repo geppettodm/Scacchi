@@ -1,6 +1,6 @@
-import chess
 from Chess import Chess
 
-
 game = Chess()
-game.startGame()
+game.start()
+game.gui.run()
+

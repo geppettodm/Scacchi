@@ -126,12 +126,38 @@ class Engine:
             return -(mat+pawns+knights+bishops+rooks+queens+kings)
 
 
+    def evaluateVanilla(self, board:chess.Board):
+        if board.is_checkmate():
+            return -9999
+        if board.is_stalemate():
+            return 0
+        if board.is_insufficient_material():
+            return 0
+
+        P = len(board.pieces(chess.PAWN, chess.WHITE))
+        N = len(board.pieces(chess.KNIGHT, chess.WHITE))
+        R = len(board.pieces(chess.ROOK, chess.WHITE))
+        B = len(board.pieces(chess.BISHOP, chess.WHITE))
+        Q = len(board.pieces(chess.QUEEN, chess.WHITE))
+
+        p = len(board.pieces(chess.PAWN, chess.BLACK))
+        n = len(board.pieces(chess.KNIGHT, chess.BLACK))
+        r = len(board.pieces(chess.ROOK, chess.BLACK))
+        b = len(board.pieces(chess.BISHOP, chess.BLACK))
+        q = len(board.pieces(chess.QUEEN, chess.BLACK))
+
+        mat = (P-p)*100 + (N-n)*300 + (B-b)*350 + (R-r)*500 + (Q-q)*900
+
+        if(board.turn):
+            return mat
+        else:
+            return -mat
+
+
 
     def negamax(self, board:chess.Board, depth:int, a:int, b: int):
         bestMove:chess.Move
-        if (depth==0):
-            return self.evaluate(board)
-        if (board.is_checkmate() or board.is_insufficient_material()):
+        if (depth==0 or board.is_checkmate() or board.is_insufficient_material()):
             return self.evaluate(board);
         maxScore = -9999
         for move in board.legal_moves:
