@@ -21,7 +21,7 @@ class Chess(Thread):
 
         while(color!="b" and color!="w"):
             color = input("""Play as (type "b" or "w"): """)
-        while(depth%2!=0 or depth < 1 or depth > 7):
+        while(depth < 1 or depth > 7):
             depth = int(input("""Depth: """)) 
         self.engine=Engine(depth);
 
