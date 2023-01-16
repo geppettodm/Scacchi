@@ -29,7 +29,7 @@ class GUI(QWidget):
 
     def run(self):
         self.show()
-        sys.exit(self.app.exec_())
+        self.app.exec_()
     
     def update(self, board:chess.Board, w):
         if w==0:
